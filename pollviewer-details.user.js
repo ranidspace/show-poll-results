@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name         show poll results
-// @version      1.0.0
-// @description  view tumblr poll results with a button
+// @name         show poll results and details
+// @version      1.0.0b
+// @description  view tumblr poll results with a button, with an exact number count on the results screen
 // @author       dragongirlsnout, ranidspace
 // @match        https://www.tumblr.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=tumblr.com
-// @downloadURL  https://github.com/ranidspace/show-poll-results/raw/main/pollviewer.user.js
-// @updateURL    https://github.com/ranidspace/show-poll-results/raw/main/pollviewer.user.js
+// @downloadURL  https://github.com/ranidspace/show-poll-results/raw/main/pollviewer-details.user.js
+// @updateURL    https://github.com/ranidspace/show-poll-results/raw/main/pollviewer-details.user.js
 // @require      https://code.jquery.com/jquery-3.6.4.min.js
 // @grant        none
 // @run-at       document-start
