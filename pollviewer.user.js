@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name         show poll results
-// @version      1.0.0
+// @name         show poll results, no details
+// @version      1.0.0b
 // @description  view tumblr poll results with a button
 // @author       dragongirlsnout, ranidspace
 // @match        https://www.tumblr.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=tumblr.com
-// @downloadURL  https://github.com/ranidspace/show-poll-results/raw/main/pollviewer.user.js
-// @updateURL    https://github.com/ranidspace/show-poll-results/raw/main/pollviewer.user.js
+// @downloadURL  https://github.com/ranidspace/show-poll-results/raw/main/pollviewer-nodetails.user.js
+// @updateURL    https://github.com/ranidspace/show-poll-results/raw/main/pollviewer-nodetails.user.js
 // @require      https://code.jquery.com/jquery-3.6.4.min.js
 // @grant        none
 // @run-at       document-start
@@ -47,12 +47,6 @@ const main = async function (nonce) {
 
       const styleElement = $str(`
         <style id='__s'>
-          .answerVoteCount {
-            position: relative;
-            font-size: 12px;
-            margin-left: 10px;
-          }
-
           .__percentage {
             display: none;
             position: absolute;
@@ -118,25 +112,17 @@ const main = async function (nonce) {
         }
       };
 
-      const detailPolls = answers => {
+      const clearItems = answers => {
         for (const answer of answers) {
           if (answer.classList.contains('__pollDetailed')) continue;
           const pollBlock = answer.closest(pollBlockSelector);
           const answers = Array.from(pollBlock.querySelectorAll(':scope [data-testid="poll-answer"]'));
-          const voteCount = Number(pollBlock.querySelector(keyToCss('pollSummary')).innerText.replace(/,/, '').match(/\d+/)[0]);
           
           // clear items
           var item = pollBlock.querySelector('.seeResultsButton')
           if (item !== null) item.remove();
 
-          const widths = answers.map((element) => element.lastChild.getBoundingClientRect().width)
-          const maxEndWidth = Math.max(...widths)
-
-          answers.forEach(element => {
-            const percentage = fetchPercentage(element);
-            const endWidth = element.lastChild.getBoundingClientRect().width
-            element.insertBefore($str(`<span class="answerVoteCount" style="padding-right: ${maxEndWidth - endWidth}px">(${Math.round(voteCount * percentage / 100)})</span>`), element.lastChild)
-            element.classList.add('__pollDetailed');
+          answers.forEach(element => {element.classList.add('__pollDetailed');
           });
         }
       };
@@ -225,7 +211,7 @@ const main = async function (nonce) {
         }
       };
       const startMutationManagers = () => {
-        mutationManager.start(detailPolls, answerSelector);
+        mutationManager.start(clearItems, answerSelector);
         mutationManager.start(pollButton, pollBlockSelector);
         mutationManager.start(pollResults, voteSelector);
 
